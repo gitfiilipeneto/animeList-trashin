@@ -1,22 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import API from "./api/requests";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  useEffect(() => {
+    API.fetchAnimes().then((todosAnimes) => setListaAnimes(todosAnimes));
+  }, []);
+
+  const [listaAnimes, setListaAnimes] = useState({data: { documents : []}});
+  // console.log(listaAnimes.data.documents);
+
+  const informacoesAnimes = listaAnimes.data.documents;
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div>
+          {informacoesAnimes.map((animeNome) => {
+            let animeNames = animeNome.titles.en;
+            return <p>{animeNames}</p>;
+          })}
+        </div>
       </header>
     </div>
   );
